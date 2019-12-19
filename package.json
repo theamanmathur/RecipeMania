@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/wolfoxx/RecipeMania/issues"
   },
-  "homepage": "https://github.com/wolfoxx/RecipeMania#readme"
+  "homepage": "https://github.com/wolfoxx/RecipeMania#readme",
+  "devDependencies": {
+    "webpack": "^4.41.4"
+  }
 }
