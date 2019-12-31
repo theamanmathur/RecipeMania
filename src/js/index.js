@@ -2,7 +2,8 @@
 /*jshint esversion: 8 */
 
 import Search from './models/Search';
-
+import * as searchView from './views/searchView';
+import { elements } from './views/base';
 /** Global state of the app 
  * - search objet
  * - cureent recipe object
@@ -13,19 +14,22 @@ const state = {};
 
 const controlSearch=async ()=>{
 
-    const query = 'pizza';
+    const query = searchView.getInput(); //getting query from the view  
+    console.log(query);
 
     if(query){
 
-        state.search=new Search(query);
+        state.search=new Search(query); //creating new Search object and adding it to STATE
+        searchView.clearInput(); //preparing UI for results
+        searchView.clearResults();
+        
+        await state.search.getResults(); //searching for recipes
 
-        await state.search.getResults();
-
-        console.log(state.search.result);
+        searchView.renderResults(state.search.result); //redndering results on UI 
     }
 }
 
-document.querySelector('.search').addEventListener('submit', e => {
+elements.searchForm.addEventListener('submit', e => {
     e.preventDefault(); //prevent page reloading
     controlSearch();
 });

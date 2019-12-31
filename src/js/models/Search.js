@@ -22,9 +22,9 @@ export default class Search{
             //const res=await axios(`https://api.spoonacular.com/recipes/search?apiKey=${key}&query=${query}&number=1`);
 
             const res =await axios(`https://api.edamam.com/search?q=${this.query}&app_id=${edamam_app_id}&app_key=${edamam_app_key}&from=0&to=10`);
-           //console.log(res);
+            console.log(res);
 
-            this.result=res.data.hits[0].recipe; 
+            this.result=res.data.hits; 
             //console.log(this.result);
         }
         catch(e){
