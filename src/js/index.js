@@ -3,7 +3,7 @@
 
 import Search from './models/Search';
 import * as searchView from './views/searchView';
-import { elements } from './views/base';
+import { elements,renderLoader,clearLoader } from './views/base';
 /** Global state of the app 
  * - search objet
  * - cureent recipe object
@@ -22,19 +22,31 @@ const controlSearch=async ()=>{
         state.search=new Search(query); //creating new Search object and adding it to STATE
         searchView.clearInput(); //preparing UI for results
         searchView.clearResults();
+        renderLoader(elements.searchRes);
         
         await state.search.getResults(); //searching for recipes
 
+        clearLoader();
         searchView.renderResults(state.search.result); //redndering results on UI 
     }
-}
+};
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault(); //prevent page reloading
     controlSearch();
 });
 
-search.getResults();
+//search.getResults();
+
+elements.searchResPages.addEventListener('click', e => {
+    const btn=e.target.closest('.btn-inline');
+    if(btn){
+        const goToPage=parseInt(btn.dataset.goto,10);
+        searchView.clearResults();
+        searchView.renderResults(state.search.result,goToPage);
+        console.log(goToPage);
+    }
+});
 
 
 
