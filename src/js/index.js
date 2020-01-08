@@ -2,6 +2,7 @@
 /*jshint esversion: 8 */
 
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import { elements,renderLoader,clearLoader } from './views/base';
 /** Global state of the app 
@@ -12,6 +13,9 @@ import { elements,renderLoader,clearLoader } from './views/base';
 */
 const state = {};
 
+/**
+ * SEARCH CONTROLLER
+ */
 const controlSearch=async ()=>{
 
     const query = searchView.getInput(); //getting query from the view  
@@ -23,11 +27,14 @@ const controlSearch=async ()=>{
         searchView.clearInput(); //preparing UI for results
         searchView.clearResults();
         renderLoader(elements.searchRes);
-        
-        await state.search.getResults(); //searching for recipes
-
-        clearLoader();
-        searchView.renderResults(state.search.result); //redndering results on UI 
+        try{
+            await state.search.getResults(); //searching for recipes
+            clearLoader();
+            searchView.renderResults(state.search.result); //redndering results on UI 
+        }catch(e){
+            //alert('something went wrong with search...');
+        }
+       
     }
 };
 
@@ -35,6 +42,14 @@ elements.searchForm.addEventListener('submit', e => {
     e.preventDefault(); //prevent page reloading
     controlSearch();
 });
+
+/**
+ * for testing purposes
+ */
+/*window.addEventListener('load', e => {
+    e.preventDefault(); //prevent page reloading
+    controlSearch();
+});*/
 
 //search.getResults();
 
@@ -48,9 +63,51 @@ elements.searchResPages.addEventListener('click', e => {
     }
 });
 
+/**
+ * RECIPE CONTROLLER
+ */
+/*const encURI=encodeURIComponent('http://www.edamam.com/ontologies/edamam.owl#recipe_1b6dfeaf0988f96b187c7c9bb69a14fa');
+console.log(encURI);
+const r=new Recipe(encURI);
+r.getRecipe();*/
 
+const controlRecipe= async () => {
+    //get id from url
+    const id=encodeURIComponent(window.location.hash.replace('#',''));
+    console.log('recipe uri: '+id);
 
+    if(id){
+        //prepare ui for changes
 
+        //create new recipe object
+        state.recipe=new Recipe(id);
+        
+        try{
+            
+            //get recipe data
+            await state.recipe.getRecipe();
+
+            console.log(state.recipe.ingredients);
+            state.recipe.parseIng();
+
+            //calculate servings and time
+            state.recipe.calcTime();
+            state.recipe.calcServings();
+    
+            //Render recipe
+            console.log(state.recipe);
+        }
+        catch(e){
+            //alert('error processing recipe!');
+            console.log(e);
+        }
+        
+    }
+};
+//window.addEventListener('hashchange',controlRecipe);
+//window.addEventListener('load',controlRecipe);
+
+['hashchange','load'].forEach(event => window.addEventListener(event,controlRecipe));
 
 
 

@@ -32,7 +32,7 @@ const renderRecipe= recipe=>{
     const rec=recipe.recipe;
     const markup=
                  `<li>
-                    <a class="results__link" href="${rec.uri}">
+                    <a class="results__link" href="#${rec.uri}">
                         <figure class="results__fig">
                             <img src="${rec.image}" alt="Test">
                         </figure>
