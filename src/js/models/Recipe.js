@@ -46,13 +46,15 @@ export default class Recipe{
 
         const unitsShort=['tbsp','tbsp','oz','oz','tsp','tsp','cup','pound'];
 
+        const units=[...unitsShort,'kg','g'];
+
         const newIngredients=this.ingredients.map(el => {
             el=el.text;
             //console.log(el);
             //uniform units
             let ingredient=el.toLowerCase();
             unitsLong.forEach((unit,i) => {
-                ingredient=ingredient.replace(unit,unitsShort[i]);
+                ingredient=ingredient.replace(unit,units[i]);
             });
                 ingredient=ingredient.replace(/ *\([^)]*\) */g,' ');//Remove parentheses
 
@@ -66,9 +68,11 @@ export default class Recipe{
 
                     let count;
                     if(arrCount.length===1){
-                        count=eval(arrIng[0].replace('-','+'));// jshint ignore:line
+                        let tempcount=eval(arrIng[0].replace('-','+'));// jshint ignore:line
+                        count=Math.round(tempcount*10)/10;
                     }else{
-                        count=eval(arrIng.slice(0,unitIndex).join('+'));// jshint ignore:line
+                        let tempcount=eval(arrIng.slice(0,unitIndex).join('+'));// jshint ignore:line
+                        count=Math.round(tempcount*10)/10;
                     }
                     objIng={
                         count,

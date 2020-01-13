@@ -4,6 +4,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { elements,renderLoader,clearLoader } from './views/base';
 /** Global state of the app 
  * - search objet
@@ -73,11 +74,20 @@ r.getRecipe();*/
 
 const controlRecipe= async () => {
     //get id from url
-    const id=encodeURIComponent(window.location.hash.replace('#',''));
+   //const id=encodeURIComponent(window.location.hash.replace('#',''));
+    const id=window.location.hash.replace('#','');
     console.log('recipe uri: '+id);
 
     if(id){
         //prepare ui for changes
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
+
+        //highlight selected
+        if(state.search){
+            searchView.highlightedSelected(id);
+        }
+        
 
         //create new recipe object
         state.recipe=new Recipe(id);
@@ -87,15 +97,18 @@ const controlRecipe= async () => {
             //get recipe data
             await state.recipe.getRecipe();
 
-            console.log(state.recipe.ingredients);
+            //console.log(state.recipe.ingredients);
             state.recipe.parseIng();
+            console.log(state.recipe.ingredients);
 
             //calculate servings and time
             state.recipe.calcTime();
             state.recipe.calcServings();
     
             //Render recipe
-            console.log(state.recipe);
+            //console.log(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         }
         catch(e){
             //alert('error processing recipe!');
