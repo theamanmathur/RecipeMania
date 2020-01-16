@@ -3,7 +3,7 @@
 
 
 import axios from 'axios';
-import {edamam_app_id,edamam_app_key} from '../config';
+import {edamam_app_id,edamam_app_key,proxy1,proxy2} from '../config';
 
 
 export default class Recipe{
@@ -13,7 +13,7 @@ export default class Recipe{
 
     async getRecipe(){
         try{
-            const res=await axios(`https://api.edamam.com/search?r=${this.id}&app_id=${edamam_app_id}&app_key=${edamam_app_key}`);
+            const res=await axios(`${proxy2}https://api.edamam.com/search?r=${this.id}&app_id=${edamam_app_id}&app_key=${edamam_app_key}`);
             this.title=res.data[0].label;
             this.author=res.data[0].source;
             this.img=res.data[0].image;
