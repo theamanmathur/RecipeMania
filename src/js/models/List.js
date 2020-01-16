@@ -8,13 +8,15 @@ export default class List{
         this.items=[];
     }
 
-    addItem(count,unit,ing){
+    addItem(count,unit,ingredient){
         const item={
             id: uniqid(),
             count,
             unit,
             ingredient
         };
+        this.items.push(item);
+        return item;
     }
 
     deleteItem (id){

@@ -7,6 +7,8 @@ import List from './models/List';
 
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
+
 import { elements,renderLoader,clearLoader } from './views/base';
 /** Global state of the app 
  * - search objet
@@ -15,7 +17,7 @@ import { elements,renderLoader,clearLoader } from './views/base';
  * - Liked recipes
 */
 const state = {};
-
+window.state=state;
 /**
  * SEARCH CONTROLLER
  */
@@ -124,6 +126,42 @@ const controlRecipe= async () => {
 
 ['hashchange','load'].forEach(event => window.addEventListener(event,controlRecipe));
 
+/**
+ * List controller
+ */
+const controlList=()=>{
+    //create list if there is none
+    if(!state.list) {
+        state.list=new List();
+        console.log(state.list);
+    }
+    //add each ing to list and UI
+    state.recipe.ingredients.forEach(el=>{
+        const item=state.list.addItem(el.count,el.unit,el.ingredient);
+        listView.renderItem(item);
+    });
+
+    //console.log(state.list);
+};
+
+//handle delete and update list item events
+elements.shopping.addEventListener('click',e=>{
+    const id=e.target.closest('.shopping__item').dataset.itemid;
+
+    //handle the delete button
+    if(e.target.matches('.shopping__delete,.shopping__delete *')){
+        //delete from state and UI
+        state.list.deleteItem(id);
+        listView.deleteItem(id);
+    }
+    //handle the count update
+    else if(e.target.matches('.shopping__count-value')){
+        const val=parseFloat(e.target.value,10);
+        state.list.updateCount(id,val);
+    }
+});
+
+
 //handling recipe button clicks
 
 elements.recipe.addEventListener('click',e=>{
@@ -139,12 +177,15 @@ elements.recipe.addEventListener('click',e=>{
          state.recipe.updateServings('inc');
          recipeView.updateServingsIngredients(state.recipe);
     }
-    console.log(state.recipe);
+    //console.log(state.recipe);
+    else if(e.target.matches('.recipe__btn--add,.recipe__btn--add *')){
+        controlList();
+    }
 });
 
 
-const l=new List();
-window.l=l;
+//const l=new List();
+//window.l=l;
 
 
 

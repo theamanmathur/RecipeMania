@@ -9,9 +9,9 @@ export const renderItem = item => {
     `<li class="shopping__item" data-itemid=${item.id}>
                     <div class="shopping__count">
                         <input type="number" value="${item.count}" step="${item.count}" class="shopping__count-value">
-                        <p>g</p>
+                        <p>${item.unit}</p>
                     </div>
-                    <p class="shopping__description">Pasta</p>
+                    <p class="shopping__description">${item.ingredient}</p>
                     <button class="shopping__delete btn-tiny">
                         <svg>
                             <use href="img/icons.svg#icon-circle-with-cross"></use>
@@ -23,6 +23,11 @@ export const renderItem = item => {
 };
 
 export const deleteItem = id => {
-    const item=document.querySelector('[data-itemid="${id}"]');
-    item.parentElement.removeChild(item);
+    const item=document.querySelector(`[data-itemid="${id}"]`);
+    try{item.parentElement.removeChild(item);
+    }
+    catch(e){
+        console.log("can't delete shopping item!!");
+        console.log(e);
+    } 
 };
