@@ -151,10 +151,6 @@ const controlList=()=>{
  * Likes CONTROLLER
  */
 
-//
-state.likes=new Likes();
-likesView.toggleLikeMenu(state.likes.getNumLikes());
-
 
 const controlLike= ()=>{
     if(!state.likes)state.likes=new Likes();
@@ -191,7 +187,12 @@ const controlLike= ()=>{
 
 };
 
-
+window.addEventListener('load',()=>{
+    state.likes=new Likes();
+    state.likes.readStorage(); //restore likes
+    likesView.toggleLikeMenu(state.likes.getNumLikes());//toggle like menu button
+    state.likes.likes.forEach(like=>likesView.renderLike(like));//render the existing likes
+});
 
 //handle delete and update list item events
 elements.shopping.addEventListener('click',e=>{
