@@ -19,14 +19,16 @@ import { elements,renderLoader,clearLoader } from './views/base';
  * - Liked recipes
 */
 const state = {};
-window.state=state;
+//window.state=state;
+
+
 /**
  * SEARCH CONTROLLER
  */
 const controlSearch=async ()=>{
 
     const query = searchView.getInput(); //getting query from the view  
-    console.log(query);
+    //console.log(query);
 
     if(query){
 
@@ -82,7 +84,7 @@ const controlRecipe= async () => {
     //get id from url
    //const id=encodeURIComponent(window.location.hash.replace('#',''));
     const id=window.location.hash.replace('#','');
-    console.log('recipe uri: '+id);
+    //console.log('recipe uri: '+id);
 
     if(id){
         //prepare ui for changes
