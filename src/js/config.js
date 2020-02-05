@@ -2,8 +2,8 @@
 /*jshint esversion: 8 */
 
 
-export const edamam_app_id='e98bb11a';
-export const edamam_app_key='609b15e8a63582cc432517a5809ca144';
+export const edamam_app_id='xxxxxxxx';
+export const edamam_app_key='xxxxxxxx';
 
 
 export const proxy1='http://crossorigin.me/';
