@@ -3,7 +3,7 @@
 
 
 export const edamam_app_id='e98bb11a';
-export const edamam_app_key='69893d98033472386e5639069f360794';
+export const edamam_app_key='';
 
 
 export const proxy1='http://crossorigin.me/';
