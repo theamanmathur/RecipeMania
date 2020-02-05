@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*jshint esversion: 8 */
+/*jshint esversion: 8*/
 
 
 export const edamam_app_id='e98bb11a';
